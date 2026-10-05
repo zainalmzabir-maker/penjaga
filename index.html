@@ -5,24 +5,29 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Portal Kehadiran Penjaga - SMK Kamarul Ariffin</title>
   
+  <!-- Favicon Logo Rasmi Sekolah -->
   <link rel="icon" type="image/png" href="logo.png">
+  <link rel="shortcut icon" type="image/png" href="logo.png">
+  <link rel="apple-touch-icon" href="logo.png">
+  
   <!-- Tailwind CSS CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body class="bg-slate-100 min-h-screen text-slate-800 flex flex-col font-sans">
 
   <!-- ==================== HEADER UTAMA ==================== -->
-  <header class="bg-indigo-800 text-white shadow-lg sticky top-0 z-40">
-    <div class="max-w-4xl mx-auto px-4 py-3.5 flex items-center justify-between">
+  <header class="bg-indigo-900 text-white shadow-lg sticky top-0 z-40 border-b border-indigo-700">
+    <div class="max-w-4xl mx-auto px-4 py-3 flex items-center justify-between">
       <div class="flex items-center gap-3">
-        <img src="logo.png" alt="Logo Sekolah" class="w-10 h-10 object-contain rounded-md bg-white p-0.5 shadow-sm">
+        <!-- Logo Sekolah -->
+        <img src="logo.png" alt="Logo SMK Kamarul Ariffin" class="w-11 h-11 object-contain rounded-xl bg-white p-1 shadow-md border border-white/20">
         <div>
           <h1 class="text-base md:text-lg font-black tracking-wide leading-tight">SMK KAMARUL ARIFFIN</h1>
-          <p class="text-xs text-indigo-200 font-medium">Portal Kehadiran Penjaga (penjaga.semekar.com)</p>
+          <p class="text-xs text-indigo-200 font-medium">Portal Maklumat Kehadiran Murid (penjaga.semekar.com)</p>
         </div>
       </div>
-      <button onclick="muatDataPenjaga()" class="px-3 py-1.5 bg-indigo-700 hover:bg-indigo-600 rounded-xl text-xs font-bold transition flex items-center gap-1.5 shadow-sm">
-        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path></svg>
+      <button onclick="muatDataPenjaga()" class="px-3.5 py-2 bg-indigo-800 hover:bg-indigo-700 active:scale-95 rounded-xl text-xs font-bold transition flex items-center gap-1.5 shadow-sm border border-indigo-600">
+        <svg class="w-4 h-4 text-indigo-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path></svg>
         <span class="hidden sm:inline">Segarkan</span>
       </button>
     </div>
@@ -31,60 +36,70 @@
   <!-- ==================== KANDUNGAN UTAMA ==================== -->
   <main class="max-w-4xl mx-auto p-4 flex-grow w-full space-y-6">
 
-    <!-- Banner Tarikh & Info -->
+    <!-- Kad Status Tarikh Semasa (Format Malaysia) -->
     <div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm flex flex-wrap items-center justify-between gap-3">
-      <div>
-        <span class="text-[11px] font-extrabold uppercase text-indigo-600 tracking-wider">Status Kehadiran Semasa</span>
-        <h2 id="labelTarikhPenuh" class="text-base md:text-lg font-black text-slate-800 mt-0.5">Memuatkan tarikh...</h2>
-        <p class="text-xs text-slate-500 mt-0.5">Ibu bapa boleh menyemak rekod murid tidak hadir dan hadir lewat bagi sesi persekolahan serta kelas tambahan.</p>
+      <div class="flex items-center gap-3">
+        <div class="w-12 h-12 rounded-xl bg-indigo-50 border border-indigo-100 flex items-center justify-center text-2xl shadow-xs">
+          📅
+        </div>
+        <div>
+          <span class="text-[11px] font-extrabold uppercase text-indigo-600 tracking-wider">Status Kehadiran Tarikh</span>
+          <h2 id="labelTarikhPenuh" class="text-base md:text-lg font-black text-slate-800">Memuatkan tarikh...</h2>
+          <p class="text-xs text-slate-500">Masa rasmi sesi persekolahan bermula: <strong class="text-slate-700 font-bold">7:20 pagi</strong></p>
+        </div>
       </div>
-      <div class="px-3 py-1 bg-emerald-50 border border-emerald-200 rounded-xl text-emerald-800 text-xs font-bold">
-        Sistem Beroperasi
+      <div class="flex items-center gap-2">
+        <span class="inline-flex items-center gap-1.5 px-3 py-1 bg-emerald-50 border border-emerald-200 rounded-full text-emerald-800 text-xs font-bold shadow-xs">
+          <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+          Sistem Aktif
+        </span>
       </div>
     </div>
 
     <!-- Carian Pantas Nama Anak -->
-    <div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm space-y-2">
-      <label class="block text-xs font-bold uppercase text-slate-600">Carian Pantas Nama Anak</label>
+    <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm space-y-2">
+      <label class="block text-xs font-bold uppercase text-slate-600">Semakan Pantas Mengikut Nama Anak</label>
       <div class="relative">
-        <input type="text" id="inputCarianNamaAnak" oninput="lakukanCarianPantas()" placeholder="Masukkan nama anak anda..." class="w-full border rounded-xl p-3 pl-10 text-xs md:text-sm font-semibold bg-slate-50 focus:ring-2 focus:ring-indigo-500">
+        <input type="text" id="inputCarianNamaAnak" oninput="lakukanCarianPantas()" placeholder="Taip nama anak anda di sini..." class="w-full border rounded-xl p-3 pl-10 text-xs md:text-sm font-semibold bg-slate-50 focus:ring-2 focus:ring-indigo-500 focus:bg-white transition">
         <svg class="w-4 h-4 text-slate-400 absolute left-3.5 top-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
       </div>
-      <div id="kotakHasilCarian" class="hidden mt-3 p-3 bg-indigo-50 border border-indigo-100 rounded-xl space-y-2 text-xs"></div>
+      <div id="kotakHasilCarian" class="hidden mt-3 p-3 bg-indigo-50/70 border border-indigo-200 rounded-xl space-y-2 text-xs"></div>
     </div>
 
     <!-- ==================== SEKSYEN 1: SESI PERSEKOLAHAN HARIAN ==================== -->
     <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm space-y-4">
       <div class="flex flex-wrap justify-between items-center gap-3 border-b pb-3">
         <div>
-          <h3 class="text-base font-extrabold text-slate-800">1. Sesi Persekolahan Harian</h3>
-          <p class="text-xs text-slate-500">Pilih kelas anak anda untuk melihat senarai ketidakhadiran & rekod hadir lewat.</p>
+          <h3 class="text-base font-extrabold text-slate-800 flex items-center gap-2">
+            <span>1. Sesi Persekolahan Harian Pagi</span>
+          </h3>
+          <p class="text-xs text-slate-500">Pilih kelas anak untuk melihat rekod murid tidak hadir dan hadir lewat.</p>
         </div>
         
         <!-- Pilihan Dropdown Kelas -->
         <div class="w-full sm:w-auto">
-          <select id="selectPilihanKelas" onchange="kemaskiniPaparanKelas()" class="w-full sm:w-48 border rounded-xl p-2.5 text-xs md:text-sm font-bold bg-indigo-50 text-indigo-900 border-indigo-200 focus:ring-2 focus:ring-indigo-500">
-            <option value="">-- Pilih Kelas Anak --</option>
+          <select id="selectPilihanKelas" onchange="kemaskiniPaparanKelas()" class="w-full sm:w-52 border rounded-xl p-2.5 text-xs md:text-sm font-bold bg-indigo-50 text-indigo-900 border-indigo-300 focus:ring-2 focus:ring-indigo-500 cursor-pointer shadow-xs">
+            <option value="">-- Pilih Tingkatan / Kelas --</option>
           </select>
         </div>
       </div>
 
-      <!-- Kad Status Ringkasan Kelas -->
+      <!-- Kad Metrik Ringkasan Kelas -->
       <div id="ringkasanKelasKotak" class="hidden grid grid-cols-2 gap-3">
         <div class="p-3 bg-rose-50 border border-rose-200 rounded-xl text-center">
           <p class="text-[11px] font-bold uppercase text-rose-700">Murid Tidak Hadir</p>
           <h4 id="kiraanTidakHadirKelas" class="text-2xl font-black text-rose-800">0</h4>
         </div>
         <div class="p-3 bg-amber-50 border border-amber-200 rounded-xl text-center">
-          <p class="text-[11px] font-bold uppercase text-amber-700">Murid Hadir Lewat (>7:20)</p>
+          <p class="text-[11px] font-bold uppercase text-amber-700">Hadir Lewat (Selepas 7:20 Pagi)</p>
           <h4 id="kiraanLewatKelas" class="text-2xl font-black text-amber-800">0</h4>
         </div>
       </div>
 
-      <!-- Tab Sub-Pilihan: Tidak Hadir vs Hadir Lewat -->
+      <!-- Tab: Tidak Hadir vs Hadir Lewat -->
       <div id="kontenaTabKehadiranKelas" class="hidden space-y-4">
-        <div class="flex bg-slate-100 p-1 rounded-xl max-w-xs">
-          <button onclick="tukarSubTab('tidak_hadir')" id="btnTabTidakHadir" class="flex-1 py-1.5 text-xs font-bold rounded-lg bg-indigo-600 text-white transition">
+        <div class="flex bg-slate-100 p-1 rounded-xl max-w-xs border border-slate-200">
+          <button onclick="tukarSubTab('tidak_hadir')" id="btnTabTidakHadir" class="flex-1 py-1.5 text-xs font-bold rounded-lg bg-indigo-600 text-white transition shadow-xs">
             Tidak Hadir
           </button>
           <button onclick="tukarSubTab('lewat')" id="btnTabLewat" class="flex-1 py-1.5 text-xs font-bold rounded-lg text-slate-600 transition">
@@ -94,53 +109,67 @@
 
         <!-- 1. Jadual Murid Tidak Hadir -->
         <div id="subTabTidakHadir" class="space-y-2">
-          <div class="overflow-x-auto border rounded-xl max-h-60">
+          <div class="overflow-x-auto border rounded-xl max-h-64">
             <table class="w-full text-left text-xs">
-              <thead class="bg-slate-50 text-slate-600 uppercase sticky top-0">
-                <tr><th class="p-2.5">Nama Murid</th><th class="p-2.5">Kelas</th><th class="p-2.5">Sebab / Status</th></tr>
+              <thead class="bg-slate-50 text-slate-600 uppercase sticky top-0 border-b">
+                <tr>
+                  <th class="p-2.5">Nama Murid</th>
+                  <th class="p-2.5">Kelas</th>
+                  <th class="p-2.5">Sebab / Alasan Ketidakhadiran</th>
+                </tr>
               </thead>
               <tbody id="tbodyTidakHadirKelas" class="divide-y divide-slate-100"></tbody>
             </table>
           </div>
-          <p class="text-[11px] text-slate-400 italic">*Jika sebab masih Tanpa Kenyataan, sila hubungi pihak sekolah atau maklumkan kepada guru tingkatan.</p>
+          <p class="text-[11px] text-slate-400 italic leading-relaxed">
+            *Jika status anak anda dinyatakan "Tanpa Kenyataan/Ponteng" tetapi mempunyai surat cuti sakit atau urusan kecemasan, sila maklumkan segera kepada Guru Tingkatan.
+          </p>
         </div>
 
         <!-- 2. Jadual Murid Hadir Lewat -->
         <div id="subTabLewat" class="hidden space-y-2">
-          <div class="overflow-x-auto border rounded-xl max-h-60">
+          <div class="overflow-x-auto border rounded-xl max-h-64">
             <table class="w-full text-left text-xs">
-              <thead class="bg-slate-50 text-slate-600 uppercase sticky top-0">
-                <tr><th class="p-2.5">Nama Murid</th><th class="p-2.5">Kelas</th><th class="p-2.5">Masa Tiba</th><th class="p-2.5">Catatan</th></tr>
+              <thead class="bg-slate-50 text-slate-600 uppercase sticky top-0 border-b">
+                <tr>
+                  <th class="p-2.5">Nama Murid</th>
+                  <th class="p-2.5">Kelas</th>
+                  <th class="p-2.5">Waktu Imbas Pagi</th>
+                  <th class="p-2.5">Status Rasmi</th>
+                </tr>
               </thead>
               <tbody id="tbodyLewatKelas" class="divide-y divide-slate-100"></tbody>
             </table>
           </div>
-          <p class="text-[11px] text-slate-400 italic">*Sesi persekolahan bermula 7:20 Pagi. Murid yang tiba selepas masa tersebut direkodkan lewat.</p>
+          <p class="text-[11px] text-slate-400 italic">
+            *Pintu pagar sekolah dikira lewat selepas jam 7:20 pagi mengikut jam digital sistem biometrik sekolah.
+          </p>
         </div>
       </div>
 
-      <div id="pesananPilihKelas" class="p-8 text-center text-slate-400 text-xs">
-        Sila pilih kelas anak anda daripada senarai di atas untuk melihat maklumat kehadiran.
+      <div id="pesananPilihKelas" class="p-8 text-center text-slate-400 text-xs bg-slate-50/50 rounded-xl border border-dashed border-slate-200">
+        Sila pilih tingkatan atau kelas anak anda pada menu pilihan di atas untuk memaparkan rekod.
       </div>
     </div>
 
     <!-- ==================== SEKSYEN 2: AKTIVITI & KELAS TAMBAHAN TERKINI ==================== -->
     <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm space-y-4">
       <div class="border-b pb-3">
-        <h3 class="text-base font-extrabold text-slate-800">2. Aktiviti & Kelas Tambahan Terkini</h3>
-        <p class="text-xs text-slate-500">Menyenaraikan aktiviti petang/kokurikulum dan murid sasaran yang tidak hadir.</p>
+        <h3 class="text-base font-extrabold text-slate-800">2. Aktiviti Kokurikulum & Kelas Tambahan Petang</h3>
+        <p class="text-xs text-slate-500">Menyenaraikan aktiviti terkini dan murid sasaran yang tidak hadir.</p>
       </div>
 
       <div id="senaraiAktivitiKotak" class="space-y-3">
-        <p class="text-xs text-slate-400 text-center py-4">Memuatkan data aktiviti terkini...</p>
+        <p class="text-xs text-slate-400 text-center py-4">Memuatkan aktiviti terkini...</p>
       </div>
 
       <!-- Nota Makluman Imbasan Dua Kali -->
-      <div class="p-3.5 bg-blue-50 border border-blue-200 rounded-xl text-blue-900 text-xs leading-relaxed flex items-start gap-2.5">
-        <span class="text-base">ℹ️</span>
+      <div class="p-4 bg-indigo-50/70 border border-indigo-200 rounded-2xl text-indigo-950 text-xs leading-relaxed flex items-start gap-3 shadow-xs">
+        <span class="text-xl shrink-0 mt-0.5">ℹ️</span>
         <div>
-          <strong class="font-bold">Makluman Imbasan Wajah Murid:</strong> Murid yang menghadiri kelas tambahan petang telah mengimbas muka semasa sesi persekolahan pagi dan sekali lagi untuk kelas tambahan petang. 
-          Apabila murid mengimbas keluar pada waktu balik petang, sistem merekodkan waktu keluar murid bagi <strong>kedua-dua sesi (pagi & kelas tambahan petang) secara serentak</strong>.
+          <strong class="font-extrabold text-indigo-900 block mb-0.5">Makluman Penting Waktu Keluar Sekolah (Petang):</strong>
+          Murid yang terlibat dengan kelas tambahan atau aktiviti petang telah mengimbas muka semasa sesi pagi dan sekali lagi untuk pendaftaran aktiviti petang. 
+          Apabila murid mengimbas muka di pintu keluar pada waktu balik petang, sistem akan <strong>merekodkan status KELUAR bagi kedua-dua sesi (persekolahan pagi & kelas petang) secara automatik dan serentak</strong>.
         </div>
       </div>
     </div>
@@ -148,37 +177,107 @@
   </main>
 
   <!-- ==================== FOOTER ==================== -->
-  <footer class="bg-white border-t py-4 text-center text-xs text-slate-400">
-    &copy; 2026 SMK Kamarul Ariffin • Sistem Kehadiran Pengecaman Wajah Biometrik
+  <footer class="bg-white border-t border-slate-200 py-6 text-center text-xs text-slate-500 mt-6">
+    <div class="max-w-4xl mx-auto px-4 flex flex-col items-center justify-center gap-2">
+      <img src="logo.png" alt="Logo SMK Kamarul Ariffin" class="w-8 h-8 object-contain">
+      <p class="font-bold text-slate-700">SMK KAMARUL ARIFFIN</p>
+      <p class="text-[11px] text-slate-400">&copy; 2026 Hak Cipta Terpelihara • Sistem Pengecaman Wajah Biometrik Sekolah</p>
+    </div>
   </footer>
 
-  <!-- ==================== JAVASCRIPT ==================== -->
+  <!-- ==================== LOGIK SISTEM FORMAT MALAYSIA ==================== -->
   <script>
-    // GANTIKAN URL INI DENGAN URL WEB APP GOOGLE APPS SCRIPT ANDA
+    // URL Web App Google Apps Script anda
     const GAS_API_URL = "https://script.google.com/macros/s/AKfycbwqTICcwNWMZ1SzWSdcfRokL6VTJA74D9Vl3wNPDQv-n87TlAmzgZ7DqeDhXgYoX5YA/exec";
 
     let masterDataPenjaga = null;
 
+    // ==================== FUNGSI FORMAT MASA TEMPATAN MALAYSIA ====================
+    // Menukar "07:25:00" -> "7:25 pagi", "14:30" -> "2:30 petang"
+    function formatMasaMY(masaStr) {
+      if (!masaStr) return "-";
+      const s = String(masaStr).trim();
+      
+      let jam = 0;
+      let minit = 0;
+
+      if (s.includes(":")) {
+        const parts = s.split(":");
+        jam = parseInt(parts[0], 10);
+        minit = parseInt(parts[1], 10);
+      } else {
+        return s;
+      }
+
+      if (isNaN(jam) || isNaN(minit)) return s;
+
+      // Penentuan waktu dalam Bahasa Melayu standard
+      let waktu = "pagi";
+      if (jam === 0) {
+        waktu = "tengah malam";
+      } else if (jam >= 1 && jam < 12) {
+        waktu = "pagi";
+      } else if (jam === 12) {
+        waktu = "tengah hari";
+      } else if (jam >= 13 && jam < 19) {
+        waktu = "petang";
+      } else {
+        waktu = "malam";
+      }
+
+      let jam12 = jam % 12;
+      if (jam12 === 0) jam12 = 12;
+
+      const minitFormatted = String(minit).padStart(2, '0');
+      return `${jam12}:${minitFormatted} ${waktu}`;
+    }
+
+    // Menukar "2026-10-05" -> "Isnin, 5 Oktober 2026"
+    function formatTarikhMY(tarikhStr) {
+      if (!tarikhStr) return "-";
+      const bulanMelayu = [
+        "Januari", "Februari", "Mac", "April", "Mei", "Jun",
+        "Julai", "Ogos", "September", "Oktober", "November", "Disember"
+      ];
+      const hariMelayu = [
+        "Ahad", "Isnin", "Selasa", "Rabu", "Khamis", "Jumaat", "Sabtu"
+      ];
+
+      const parts = String(tarikhStr).trim().split("-");
+      if (parts.length === 3) {
+        const y = parseInt(parts[0], 10);
+        const m = parseInt(parts[1], 10) - 1;
+        const d = parseInt(parts[2], 10);
+        const dt = new Date(y, m, d);
+        if (!isNaN(dt.getTime())) {
+          return `${hariMelayu[dt.getDay()]}, ${d} ${bulanMelayu[m]} ${y}`;
+        }
+      }
+      return tarikhStr;
+    }
+
+    // ==================== MEMUAT DATA PORTAL ====================
     window.addEventListener('DOMContentLoaded', () => {
       muatDataPenjaga();
     });
 
     async function muatDataPenjaga() {
-      document.getElementById('labelTarikhPenuh').innerText = "Sedang memuatkan data terkini...";
+      document.getElementById('labelTarikhPenuh').innerText = "Sedang mengambil data terkini...";
       try {
         const res = await fetch(`${GAS_API_URL}?action=getPenjagaData`);
         masterDataPenjaga = await res.json();
 
-        // 1. Kemaskini Label Tarikh
-        document.getElementById('labelTarikhPenuh').innerText = masterDataPenjaga.tarikhPenuh || masterDataPenjaga.tarikh;
+        // Paparkan tarikh dalam format tempatan
+        const tarikhFormat = masterDataPenjaga.tarikhPenuh || formatTarikhMY(masterDataPenjaga.tarikh);
+        document.getElementById('labelTarikhPenuh').innerText = tarikhFormat;
 
-        // 2. Isi Dropdown Kelas
+        // Isi pilihan kelas
         const selKelas = document.getElementById('selectPilihanKelas');
         const prevVal = selKelas.value;
-        selKelas.innerHTML = '<option value="">-- Pilih Kelas Anak --</option>';
+        selKelas.innerHTML = '<option value="">-- Pilih Tingkatan / Kelas --</option>';
 
         (masterDataPenjaga.senaraiKelas || []).forEach(k => {
-          selKelas.innerHTML += `<option value="${k}">${k}</option>`;
+          selKelas.innerHTML += `<option value="${k}">Kelas ${k}</option>`;
         });
 
         if (prevVal && masterDataPenjaga.senaraiKelas.includes(prevVal)) {
@@ -186,11 +285,11 @@
           kemaskiniPaparanKelas();
         }
 
-        // 3. Paparkan Senarai Aktiviti Terkini
+        // Paparkan aktiviti terkini
         paparkanSenaraiAktiviti(masterDataPenjaga.aktivitiTerkini || []);
 
       } catch (err) {
-        document.getElementById('labelTarikhPenuh').innerText = "Ralat memuat data.";
+        document.getElementById('labelTarikhPenuh').innerText = "Ralat memuat data daripada pelayan.";
         console.error("Gagal muat data penjaga:", err);
       }
     }
@@ -216,7 +315,6 @@
       const senaraiTidakHadir = infoKelas.tidakHadir || [];
       const senaraiLewat = infoKelas.lewat || [];
 
-      // Update ringkasan angka
       document.getElementById('kiraanTidakHadirKelas').innerText = senaraiTidakHadir.length;
       document.getElementById('kiraanLewatKelas').innerText = senaraiLewat.length;
 
@@ -224,35 +322,37 @@
       const tbodyTidakHadir = document.getElementById('tbodyTidakHadirKelas');
       tbodyTidakHadir.innerHTML = '';
       if (senaraiTidakHadir.length === 0) {
-        tbodyTidakHadir.innerHTML = '<tr><td colspan="3" class="p-3 text-center text-emerald-600 font-bold">Semua murid hadir bagi kelas ini!</td></tr>';
+        tbodyTidakHadir.innerHTML = '<tr><td colspan="3" class="p-3.5 text-center text-emerald-600 font-bold bg-emerald-50/50">Semua murid bagi kelas ini telah hadir!</td></tr>';
       } else {
         senaraiTidakHadir.forEach(m => {
           let badgeWarna = "bg-rose-100 text-rose-800";
-          if (m.sebab.includes("Sakit")) badgeWarna = "bg-blue-100 text-blue-800";
+          if (m.sebab.includes("Sakit") || m.sebab.includes("Demam")) badgeWarna = "bg-blue-100 text-blue-800";
           else if (m.sebab.includes("Apung")) badgeWarna = "bg-amber-100 text-amber-800";
+          else if (m.sebab.includes("Rasmi")) badgeWarna = "bg-purple-100 text-purple-800";
 
           tbodyTidakHadir.innerHTML += `
-            <tr class="hover:bg-slate-50">
+            <tr class="hover:bg-slate-50 transition">
               <td class="p-2.5 font-bold text-slate-800">${m.nama}</td>
-              <td class="p-2.5 text-slate-500">${m.tingkatan}</td>
-              <td class="p-2.5"><span class="px-2 py-0.5 rounded text-[10px] font-bold ${badgeWarna}">${m.sebab}</span></td>
+              <td class="p-2.5 text-slate-500 font-medium">${m.tingkatan}</td>
+              <td class="p-2.5"><span class="px-2 py-0.5 rounded-md text-[10px] font-bold ${badgeWarna}">${m.sebab}</span></td>
             </tr>`;
         });
       }
 
-      // 2. Jadual Hadir Lewat
+      // 2. Jadual Hadir Lewat (Dengan format waktu Malaysia)
       const tbodyLewat = document.getElementById('tbodyLewatKelas');
       tbodyLewat.innerHTML = '';
       if (senaraiLewat.length === 0) {
-        tbodyLewat.innerHTML = '<tr><td colspan="4" class="p-3 text-center text-slate-400 font-medium">Tiada murid direkodkan lewat hari ini.</td></tr>';
+        tbodyLewat.innerHTML = '<tr><td colspan="4" class="p-3.5 text-center text-slate-400 font-medium">Tiada murid direkodkan lewat hari ini.</td></tr>';
       } else {
         senaraiLewat.forEach(m => {
+          const masaMY = formatMasaMY(m.masa);
           tbodyLewat.innerHTML += `
-            <tr class="hover:bg-slate-50">
+            <tr class="hover:bg-slate-50 transition">
               <td class="p-2.5 font-bold text-slate-800">${m.nama}</td>
-              <td class="p-2.5 text-slate-500">${m.tingkatan}</td>
-              <td class="p-2.5 font-mono text-amber-600 font-bold">${m.masa}</td>
-              <td class="p-2.5 text-slate-500">${m.status}</td>
+              <td class="p-2.5 text-slate-500 font-medium">${m.tingkatan}</td>
+              <td class="p-2.5 font-bold text-amber-600">${masaMY}</td>
+              <td class="p-2.5 text-slate-500 text-[11px] font-semibold">${m.status}</td>
             </tr>`;
         });
       }
@@ -265,38 +365,43 @@
       const boxLewat = document.getElementById('subTabLewat');
 
       if (tab === 'tidak_hadir') {
-        btnTidakHadir.className = "flex-1 py-1.5 text-xs font-bold rounded-lg bg-indigo-600 text-white transition";
+        btnTidakHadir.className = "flex-1 py-1.5 text-xs font-bold rounded-lg bg-indigo-600 text-white transition shadow-xs";
         btnLewat.className = "flex-1 py-1.5 text-xs font-bold rounded-lg text-slate-600 transition";
         boxTidakHadir.classList.remove('hidden');
         boxLewat.classList.add('hidden');
       } else {
-        btnLewat.className = "flex-1 py-1.5 text-xs font-bold rounded-lg bg-indigo-600 text-white transition";
+        btnLewat.className = "flex-1 py-1.5 text-xs font-bold rounded-lg bg-indigo-600 text-white transition shadow-xs";
         btnTidakHadir.className = "flex-1 py-1.5 text-xs font-bold rounded-lg text-slate-600 transition";
         boxLewat.classList.remove('hidden');
         boxTidakHadir.classList.add('hidden');
       }
     }
 
+    // Paparkan Senarai Aktiviti dengan Waktu Tempatan
     function paparkanSenaraiAktiviti(senarai) {
       const kotak = document.getElementById('senaraiAktivitiKotak');
       kotak.innerHTML = '';
 
       if (senarai.length === 0) {
-        kotak.innerHTML = '<p class="text-xs text-slate-400 text-center py-4">Tiada rekod aktiviti atau kelas tambahan terkini.</p>';
+        kotak.innerHTML = '<p class="text-xs text-slate-400 text-center py-4 bg-slate-50 rounded-xl">Tiada rekod aktiviti atau kelas tambahan dibuka hari ini.</p>';
         return;
       }
 
       senarai.forEach(act => {
+        const masaMulaMY = formatMasaMY(act.masaMula);
+        const masaTamatMY = formatMasaMY(act.masaTamat);
+        const tarikhMY = formatTarikhMY(act.tarikh);
+
         let htmlMuridTidakHadir = '';
         if (!act.senaraiTidakHadir || act.senaraiTidakHadir.length === 0) {
-          htmlMuridTidakHadir = '<p class="text-xs text-emerald-600 font-bold py-1">Semua murid sasaran hadir aktiviti ini!</p>';
+          htmlMuridTidakHadir = '<p class="text-xs text-emerald-600 font-bold py-1">Semua murid sasaran hadir bagi aktiviti ini!</p>';
         } else {
           htmlMuridTidakHadir = `
-            <div class="mt-2 pt-2 border-t border-slate-100">
-              <p class="text-[11px] font-bold text-rose-700 uppercase mb-1">Senarai Murid Sasaran Tidak Hadir (${act.tidakHadirCount} Orang):</p>
+            <div class="mt-2.5 pt-2.5 border-t border-slate-200">
+              <p class="text-[11px] font-extrabold text-rose-700 uppercase mb-1.5">Murid Sasaran Yang Tidak Hadir (${act.tidakHadirCount} Orang):</p>
               <div class="flex flex-wrap gap-1.5 max-h-32 overflow-y-auto">
                 ${act.senaraiTidakHadir.map(m => `
-                  <span class="px-2 py-0.5 bg-rose-50 border border-rose-200 text-rose-800 rounded-md text-[10px] font-semibold">
+                  <span class="px-2 py-0.5 bg-rose-50 border border-rose-200 text-rose-800 rounded-md text-[11px] font-semibold">
                     ${m.nama} (${m.tingkatan})
                   </span>
                 `).join('')}
@@ -305,10 +410,14 @@
         }
 
         kotak.innerHTML += `
-          <div class="p-4 bg-slate-50 border border-slate-200 rounded-xl space-y-2">
+          <div class="p-4 bg-slate-50 border border-slate-200 rounded-2xl space-y-2">
             <div class="flex flex-wrap justify-between items-center gap-1.5">
-              <span class="text-[10px] font-bold bg-indigo-100 text-indigo-800 px-2 py-0.5 rounded-full">${act.tarikh} • ${act.masaMula} - ${act.masaTamat}</span>
-              <span class="text-xs font-bold text-slate-500">Sasaran: ${act.jumlahSasaran} | Hadir: <span class="text-emerald-600">${act.hadirCount}</span></span>
+              <span class="text-[11px] font-black bg-indigo-100 text-indigo-900 px-2.5 py-0.5 rounded-full">
+                ${tarikhMY} • ${masaMulaMY} hingga ${masaTamatMY}
+              </span>
+              <span class="text-xs font-bold text-slate-500">
+                Sasaran: ${act.jumlahSasaran} | Hadir: <span class="text-emerald-600 font-black">${act.hadirCount}</span>
+              </span>
             </div>
             <h4 class="text-sm font-black text-slate-800">${act.nama}</h4>
             ${htmlMuridTidakHadir}
@@ -316,7 +425,7 @@
       });
     }
 
-    // CARIAN PANTAS NAMA ANAK MERENTAS KELAS
+    // Carian Pantas Nama Anak
     function lakukanCarianPantas() {
       const carian = (document.getElementById('inputCarianNamaAnak').value || '').trim().toLowerCase();
       const kotak = document.getElementById('kotakHasilCarian');
@@ -332,43 +441,44 @@
 
       let hasilDitemui = [];
 
-      // Cari dalam senarai tidak hadir & lewat sesi sekolah
+      // Cari dalam sesi persekolahan
       Object.keys(masterDataPenjaga.dataKelas).forEach(kelas => {
         const info = masterDataPenjaga.dataKelas[kelas];
         (info.tidakHadir || []).forEach(m => {
           if (m.nama.toLowerCase().includes(carian)) {
-            hasilDitemui.push({ ...m, jenis: 'Tidak Hadir Persekolahan', statusDesc: m.sebab });
+            hasilDitemui.push({ ...m, jenis: 'Tidak Hadir Sekolah Pagi', statusDesc: m.sebab, warna: 'bg-rose-100 text-rose-800' });
           }
         });
         (info.lewat || []).forEach(m => {
           if (m.nama.toLowerCase().includes(carian)) {
-            hasilDitemui.push({ ...m, jenis: 'Hadir Lewat', statusDesc: `Tiba ${m.masa}` });
+            const masaMY = formatMasaMY(m.masa);
+            hasilDitemui.push({ ...m, jenis: 'Hadir Lewat', statusDesc: `Tiba pada jam ${masaMY}`, warna: 'bg-amber-100 text-amber-900' });
           }
         });
       });
 
-      // Cari dalam aktiviti
+      // Cari dalam aktiviti petang
       (masterDataPenjaga.aktivitiTerkini || []).forEach(act => {
         (act.senaraiTidakHadir || []).forEach(m => {
           if (m.nama.toLowerCase().includes(carian)) {
-            hasilDitemui.push({ ...m, jenis: `Tidak Hadir: ${act.nama}`, statusDesc: `${act.tarikh}` });
+            hasilDitemui.push({ ...m, jenis: `Tidak Hadir: ${act.nama}`, statusDesc: formatTarikhMY(act.tarikh), warna: 'bg-rose-100 text-rose-800' });
           }
         });
       });
 
       if (hasilDitemui.length === 0) {
-        kotak.innerHTML = '<p class="text-slate-500">Nama murid tiada dalam senarai tidak hadir atau lewat hari ini (Anak anda berkemungkinan telah hadir tepat waktu).</p>';
+        kotak.innerHTML = '<p class="text-slate-600 font-medium">Nama anak anda tiada dalam rekod tidak hadir atau lewat hari ini (Berkemungkinan anak telah hadir tepat pada masanya).</p>';
       } else {
         kotak.innerHTML = `
-          <p class="font-bold text-indigo-900 border-b pb-1">Hasil Rekod Ditemui (${hasilDitemui.length}):</p>
-          <div class="space-y-1.5 max-h-40 overflow-y-auto">
+          <p class="font-extrabold text-indigo-900 border-b border-indigo-200 pb-1">Hasil Rekod Ditemui (${hasilDitemui.length}):</p>
+          <div class="space-y-1.5 max-h-48 overflow-y-auto">
             ${hasilDitemui.map(h => `
-              <div class="p-2 bg-white rounded-lg border border-indigo-100 flex justify-between items-center">
+              <div class="p-2.5 bg-white rounded-xl border border-indigo-100 flex justify-between items-center shadow-xs">
                 <div>
-                  <p class="font-bold text-slate-800">${h.nama} <span class="text-indigo-600 font-semibold">(${h.tingkatan})</span></p>
+                  <p class="font-bold text-slate-800 text-xs">${h.nama} <span class="text-indigo-600 font-semibold">(${h.tingkatan})</span></p>
                   <p class="text-[10px] text-slate-500">${h.jenis}</p>
                 </div>
-                <span class="px-2 py-0.5 rounded text-[10px] font-bold bg-amber-100 text-amber-900">${h.statusDesc}</span>
+                <span class="px-2 py-0.5 rounded-md text-[10px] font-bold ${h.warna}">${h.statusDesc}</span>
               </div>
             `).join('')}
           </div>`;
