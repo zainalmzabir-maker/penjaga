@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="ms">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Portal Kehadiran Penjaga - SMK Kamarul Ariffin</title>
+  
+  <link rel="icon" type="image/png" href="logo.png">
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-slate-100 min-h-screen text-slate-800 flex flex-col font-sans">
+
+  <!-- ==================== HEADER UTAMA ==================== -->
+  <header class="bg-indigo-800 text-white shadow-lg sticky top-0 z-40">
+    <div class="max-w-4xl mx-auto px-4 py-3.5 flex items-center justify-between">
+      <div class="flex items-center gap-3">
+        <img src="logo.png" alt="Logo Sekolah" class="w-10 h-10 object-contain rounded-md bg-white p-0.5 shadow-sm">
+        <div>
+          <h1 class="text-base md:text-lg font-black tracking-wide leading-tight">SMK KAMARUL ARIFFIN</h1>
+          <p class="text-xs text-indigo-200 font-medium">Portal Kehadiran Penjaga (penjaga.semekar.com)</p>
+        </div>
+      </div>
+      <button onclick="muatDataPenjaga()" class="px-3 py-1.5 bg-indigo-700 hover:bg-indigo-600 rounded-xl text-xs font-bold transition flex items-center gap-1.5 shadow-sm">
+        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path></svg>
+        <span class="hidden sm:inline">Segarkan</span>
+      </button>
+    </div>
+  </header>
+
+  <!-- ==================== KANDUNGAN UTAMA ==================== -->
+  <main class="max-w-4xl mx-auto p-4 flex-grow w-full space-y-6">
+
+    <!-- Banner Tarikh & Info -->
+    <div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm flex flex-wrap items-center justify-between gap-3">
+      <div>
+        <span class="text-[11px] font-extrabold uppercase text-indigo-600 tracking-wider">Status Kehadiran Semasa</span>
+        <h2 id="labelTarikhPenuh" class="text-base md:text-lg font-black text-slate-800 mt-0.5">Memuatkan tarikh...</h2>
+        <p class="text-xs text-slate-500 mt-0.5">Ibu bapa boleh menyemak rekod murid tidak hadir dan hadir lewat bagi sesi persekolahan serta kelas tambahan.</p>
+      </div>
+      <div class="px-3 py-1 bg-emerald-50 border border-emerald-200 rounded-xl text-emerald-800 text-xs font-bold">
+        Sistem Beroperasi
+      </div>
+    </div>
+
+    <!-- Carian Pantas Nama Anak -->
+    <div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm space-y-2">
+      <label class="block text-xs font-bold uppercase text-slate-600">Carian Pantas Nama Anak</label>
+      <div class="relative">
+        <input type="text" id="inputCarianNamaAnak" oninput="lakukanCarianPantas()" placeholder="Masukkan nama anak anda..." class="w-full border rounded-xl p-3 pl-10 text-xs md:text-sm font-semibold bg-slate-50 focus:ring-2 focus:ring-indigo-500">
+        <svg class="w-4 h-4 text-slate-400 absolute left-3.5 top-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+      </div>
+      <div id="kotakHasilCarian" class="hidden mt-3 p-3 bg-indigo-50 border border-indigo-100 rounded-xl space-y-2 text-xs"></div>
+    </div>
+
+    <!-- ==================== SEKSYEN 1: SESI PERSEKOLAHAN HARIAN ==================== -->
+    <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm space-y-4">
+      <div class="flex flex-wrap justify-between items-center gap-3 border-b pb-3">
+        <div>
+          <h3 class="text-base font-extrabold text-slate-800">1. Sesi Persekolahan Harian</h3>
+          <p class="text-xs text-slate-500">Pilih kelas anak anda untuk melihat senarai ketidakhadiran & rekod hadir lewat.</p>
+        </div>
+        
+        <!-- Pilihan Dropdown Kelas -->
+        <div class="w-full sm:w-auto">
+          <select id="selectPilihanKelas" onchange="kemaskiniPaparanKelas()" class="w-full sm:w-48 border rounded-xl p-2.5 text-xs md:text-sm font-bold bg-indigo-50 text-indigo-900 border-indigo-200 focus:ring-2 focus:ring-indigo-500">
+            <option value="">-- Pilih Kelas Anak --</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Kad Status Ringkasan Kelas -->
+      <div id="ringkasanKelasKotak" class="hidden grid grid-cols-2 gap-3">
+        <div class="p-3 bg-rose-50 border border-rose-200 rounded-xl text-center">
+          <p class="text-[11px] font-bold uppercase text-rose-700">Murid Tidak Hadir</p>
+          <h4 id="kiraanTidakHadirKelas" class="text-2xl font-black text-rose-800">0</h4>
+        </div>
+        <div class="p-3 bg-amber-50 border border-amber-200 rounded-xl text-center">
+          <p class="text-[11px] font-bold uppercase text-amber-700">Murid Hadir Lewat (>7:20)</p>
+          <h4 id="kiraanLewatKelas" class="text-2xl font-black text-amber-800">0</h4>
+        </div>
+      </div>
+
+      <!-- Tab Sub-Pilihan: Tidak Hadir vs Hadir Lewat -->
+      <div id="kontenaTabKehadiranKelas" class="hidden space-y-4">
+        <div class="flex bg-slate-100 p-1 rounded-xl max-w-xs">
+          <button onclick="tukarSubTab('tidak_hadir')" id="btnTabTidakHadir" class="flex-1 py-1.5 text-xs font-bold rounded-lg bg-indigo-600 text-white transition">
+            Tidak Hadir
+          </button>
+          <button onclick="tukarSubTab('lewat')" id="btnTabLewat" class="flex-1 py-1.5 text-xs font-bold rounded-lg text-slate-600 transition">
+            Hadir Lewat
+          </button>
+        </div>
+
+        <!-- 1. Jadual Murid Tidak Hadir -->
+        <div id="subTabTidakHadir" class="space-y-2">
+          <div class="overflow-x-auto border rounded-xl max-h-60">
+            <table class="w-full text-left text-xs">
+              <thead class="bg-slate-50 text-slate-600 uppercase sticky top-0">
+                <tr><th class="p-2.5">Nama Murid</th><th class="p-2.5">Kelas</th><th class="p-2.5">Sebab / Status</th></tr>
+              </thead>
+              <tbody id="tbodyTidakHadirKelas" class="divide-y divide-slate-100"></tbody>
+            </table>
+          </div>
+          <p class="text-[11px] text-slate-400 italic">*Jika sebab masih Tanpa Kenyataan, sila hubungi pihak sekolah atau maklumkan kepada guru tingkatan.</p>
+        </div>
+
+        <!-- 2. Jadual Murid Hadir Lewat -->
+        <div id="subTabLewat" class="hidden space-y-2">
+          <div class="overflow-x-auto border rounded-xl max-h-60">
+            <table class="w-full text-left text-xs">
+              <thead class="bg-slate-50 text-slate-600 uppercase sticky top-0">
+                <tr><th class="p-2.5">Nama Murid</th><th class="p-2.5">Kelas</th><th class="p-2.5">Masa Tiba</th><th class="p-2.5">Catatan</th></tr>
+              </thead>
+              <tbody id="tbodyLewatKelas" class="divide-y divide-slate-100"></tbody>
+            </table>
+          </div>
+          <p class="text-[11px] text-slate-400 italic">*Sesi persekolahan bermula 7:20 Pagi. Murid yang tiba selepas masa tersebut direkodkan lewat.</p>
+        </div>
+      </div>
+
+      <div id="pesananPilihKelas" class="p-8 text-center text-slate-400 text-xs">
+        Sila pilih kelas anak anda daripada senarai di atas untuk melihat maklumat kehadiran.
+      </div>
+    </div>
+
+    <!-- ==================== SEKSYEN 2: AKTIVITI & KELAS TAMBAHAN TERKINI ==================== -->
+    <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm space-y-4">
+      <div class="border-b pb-3">
+        <h3 class="text-base font-extrabold text-slate-800">2. Aktiviti & Kelas Tambahan Terkini</h3>
+        <p class="text-xs text-slate-500">Menyenaraikan aktiviti petang/kokurikulum dan murid sasaran yang tidak hadir.</p>
+      </div>
+
+      <div id="senaraiAktivitiKotak" class="space-y-3">
+        <p class="text-xs text-slate-400 text-center py-4">Memuatkan data aktiviti terkini...</p>
+      </div>
+
+      <!-- Nota Makluman Imbasan Dua Kali -->
+      <div class="p-3.5 bg-blue-50 border border-blue-200 rounded-xl text-blue-900 text-xs leading-relaxed flex items-start gap-2.5">
+        <span class="text-base">ℹ️</span>
+        <div>
+          <strong class="font-bold">Makluman Imbasan Wajah Murid:</strong> Murid yang menghadiri kelas tambahan petang telah mengimbas muka semasa sesi persekolahan pagi dan sekali lagi untuk kelas tambahan petang. 
+          Apabila murid mengimbas keluar pada waktu balik petang, sistem merekodkan waktu keluar murid bagi <strong>kedua-dua sesi (pagi & kelas tambahan petang) secara serentak</strong>.
+        </div>
+      </div>
+    </div>
+
+  </main>
+
+  <!-- ==================== FOOTER ==================== -->
+  <footer class="bg-white border-t py-4 text-center text-xs text-slate-400">
+    &copy; 2026 SMK Kamarul Ariffin • Sistem Kehadiran Pengecaman Wajah Biometrik
+  </footer>
+
+  <!-- ==================== JAVASCRIPT ==================== -->
+  <script>
+    // GANTIKAN URL INI DENGAN URL WEB APP GOOGLE APPS SCRIPT ANDA
+    const GAS_API_URL = "https://script.google.com/macros/s/AKfycbwqTICcwNWMZ1SzWSdcfRokL6VTJA74D9Vl3wNPDQv-n87TlAmzgZ7DqeDhXgYoX5YA/exec";
+
+    let masterDataPenjaga = null;
+
+    window.addEventListener('DOMContentLoaded', () => {
+      muatDataPenjaga();
+    });
+
+    async function muatDataPenjaga() {
+      document.getElementById('labelTarikhPenuh').innerText = "Sedang memuatkan data terkini...";
+      try {
+        const res = await fetch(`${GAS_API_URL}?action=getPenjagaData`);
+        masterDataPenjaga = await res.json();
+
+        // 1. Kemaskini Label Tarikh
+        document.getElementById('labelTarikhPenuh').innerText = masterDataPenjaga.tarikhPenuh || masterDataPenjaga.tarikh;
+
+        // 2. Isi Dropdown Kelas
+        const selKelas = document.getElementById('selectPilihanKelas');
+        const prevVal = selKelas.value;
+        selKelas.innerHTML = '<option value="">-- Pilih Kelas Anak --</option>';
+
+        (masterDataPenjaga.senaraiKelas || []).forEach(k => {
+          selKelas.innerHTML += `<option value="${k}">${k}</option>`;
+        });
+
+        if (prevVal && masterDataPenjaga.senaraiKelas.includes(prevVal)) {
+          selKelas.value = prevVal;
+          kemaskiniPaparanKelas();
+        }
+
+        // 3. Paparkan Senarai Aktiviti Terkini
+        paparkanSenaraiAktiviti(masterDataPenjaga.aktivitiTerkini || []);
+
+      } catch (err) {
+        document.getElementById('labelTarikhPenuh').innerText = "Ralat memuat data.";
+        console.error("Gagal muat data penjaga:", err);
+      }
+    }
+
+    function kemaskiniPaparanKelas() {
+      const k = document.getElementById('selectPilihanKelas').value;
+      const pesanan = document.getElementById('pesananPilihKelas');
+      const ringkasan = document.getElementById('ringkasanKelasKotak');
+      const kontenaTab = document.getElementById('kontenaTabKehadiranKelas');
+
+      if (!k || !masterDataPenjaga || !masterDataPenjaga.dataKelas[k]) {
+        pesanan.classList.remove('hidden');
+        ringkasan.classList.add('hidden');
+        kontenaTab.classList.add('hidden');
+        return;
+      }
+
+      pesanan.classList.add('hidden');
+      ringkasan.classList.remove('hidden');
+      kontenaTab.classList.remove('hidden');
+
+      const infoKelas = masterDataPenjaga.dataKelas[k];
+      const senaraiTidakHadir = infoKelas.tidakHadir || [];
+      const senaraiLewat = infoKelas.lewat || [];
+
+      // Update ringkasan angka
+      document.getElementById('kiraanTidakHadirKelas').innerText = senaraiTidakHadir.length;
+      document.getElementById('kiraanLewatKelas').innerText = senaraiLewat.length;
+
+      // 1. Jadual Tidak Hadir
+      const tbodyTidakHadir = document.getElementById('tbodyTidakHadirKelas');
+      tbodyTidakHadir.innerHTML = '';
+      if (senaraiTidakHadir.length === 0) {
+        tbodyTidakHadir.innerHTML = '<tr><td colspan="3" class="p-3 text-center text-emerald-600 font-bold">Semua murid hadir bagi kelas ini!</td></tr>';
+      } else {
+        senaraiTidakHadir.forEach(m => {
+          let badgeWarna = "bg-rose-100 text-rose-800";
+          if (m.sebab.includes("Sakit")) badgeWarna = "bg-blue-100 text-blue-800";
+          else if (m.sebab.includes("Apung")) badgeWarna = "bg-amber-100 text-amber-800";
+
+          tbodyTidakHadir.innerHTML += `
+            <tr class="hover:bg-slate-50">
+              <td class="p-2.5 font-bold text-slate-800">${m.nama}</td>
+              <td class="p-2.5 text-slate-500">${m.tingkatan}</td>
+              <td class="p-2.5"><span class="px-2 py-0.5 rounded text-[10px] font-bold ${badgeWarna}">${m.sebab}</span></td>
+            </tr>`;
+        });
+      }
+
+      // 2. Jadual Hadir Lewat
+      const tbodyLewat = document.getElementById('tbodyLewatKelas');
+      tbodyLewat.innerHTML = '';
+      if (senaraiLewat.length === 0) {
+        tbodyLewat.innerHTML = '<tr><td colspan="4" class="p-3 text-center text-slate-400 font-medium">Tiada murid direkodkan lewat hari ini.</td></tr>';
+      } else {
+        senaraiLewat.forEach(m => {
+          tbodyLewat.innerHTML += `
+            <tr class="hover:bg-slate-50">
+              <td class="p-2.5 font-bold text-slate-800">${m.nama}</td>
+              <td class="p-2.5 text-slate-500">${m.tingkatan}</td>
+              <td class="p-2.5 font-mono text-amber-600 font-bold">${m.masa}</td>
+              <td class="p-2.5 text-slate-500">${m.status}</td>
+            </tr>`;
+        });
+      }
+    }
+
+    function tukarSubTab(tab) {
+      const btnTidakHadir = document.getElementById('btnTabTidakHadir');
+      const btnLewat = document.getElementById('btnTabLewat');
+      const boxTidakHadir = document.getElementById('subTabTidakHadir');
+      const boxLewat = document.getElementById('subTabLewat');
+
+      if (tab === 'tidak_hadir') {
+        btnTidakHadir.className = "flex-1 py-1.5 text-xs font-bold rounded-lg bg-indigo-600 text-white transition";
+        btnLewat.className = "flex-1 py-1.5 text-xs font-bold rounded-lg text-slate-600 transition";
+        boxTidakHadir.classList.remove('hidden');
+        boxLewat.classList.add('hidden');
+      } else {
+        btnLewat.className = "flex-1 py-1.5 text-xs font-bold rounded-lg bg-indigo-600 text-white transition";
+        btnTidakHadir.className = "flex-1 py-1.5 text-xs font-bold rounded-lg text-slate-600 transition";
+        boxLewat.classList.remove('hidden');
+        boxTidakHadir.classList.add('hidden');
+      }
+    }
+
+    function paparkanSenaraiAktiviti(senarai) {
+      const kotak = document.getElementById('senaraiAktivitiKotak');
+      kotak.innerHTML = '';
+
+      if (senarai.length === 0) {
+        kotak.innerHTML = '<p class="text-xs text-slate-400 text-center py-4">Tiada rekod aktiviti atau kelas tambahan terkini.</p>';
+        return;
+      }
+
+      senarai.forEach(act => {
+        let htmlMuridTidakHadir = '';
+        if (!act.senaraiTidakHadir || act.senaraiTidakHadir.length === 0) {
+          htmlMuridTidakHadir = '<p class="text-xs text-emerald-600 font-bold py-1">Semua murid sasaran hadir aktiviti ini!</p>';
+        } else {
+          htmlMuridTidakHadir = `
+            <div class="mt-2 pt-2 border-t border-slate-100">
+              <p class="text-[11px] font-bold text-rose-700 uppercase mb-1">Senarai Murid Sasaran Tidak Hadir (${act.tidakHadirCount} Orang):</p>
+              <div class="flex flex-wrap gap-1.5 max-h-32 overflow-y-auto">
+                ${act.senaraiTidakHadir.map(m => `
+                  <span class="px-2 py-0.5 bg-rose-50 border border-rose-200 text-rose-800 rounded-md text-[10px] font-semibold">
+                    ${m.nama} (${m.tingkatan})
+                  </span>
+                `).join('')}
+              </div>
+            </div>`;
+        }
+
+        kotak.innerHTML += `
+          <div class="p-4 bg-slate-50 border border-slate-200 rounded-xl space-y-2">
+            <div class="flex flex-wrap justify-between items-center gap-1.5">
+              <span class="text-[10px] font-bold bg-indigo-100 text-indigo-800 px-2 py-0.5 rounded-full">${act.tarikh} • ${act.masaMula} - ${act.masaTamat}</span>
+              <span class="text-xs font-bold text-slate-500">Sasaran: ${act.jumlahSasaran} | Hadir: <span class="text-emerald-600">${act.hadirCount}</span></span>
+            </div>
+            <h4 class="text-sm font-black text-slate-800">${act.nama}</h4>
+            ${htmlMuridTidakHadir}
+          </div>`;
+      });
+    }
+
+    // CARIAN PANTAS NAMA ANAK MERENTAS KELAS
+    function lakukanCarianPantas() {
+      const carian = (document.getElementById('inputCarianNamaAnak').value || '').trim().toLowerCase();
+      const kotak = document.getElementById('kotakHasilCarian');
+
+      if (!carian || carian.length < 2 || !masterDataPenjaga) {
+        kotak.classList.add('hidden');
+        kotak.innerHTML = '';
+        return;
+      }
+
+      kotak.classList.remove('hidden');
+      kotak.innerHTML = '';
+
+      let hasilDitemui = [];
+
+      // Cari dalam senarai tidak hadir & lewat sesi sekolah
+      Object.keys(masterDataPenjaga.dataKelas).forEach(kelas => {
+        const info = masterDataPenjaga.dataKelas[kelas];
+        (info.tidakHadir || []).forEach(m => {
+          if (m.nama.toLowerCase().includes(carian)) {
+            hasilDitemui.push({ ...m, jenis: 'Tidak Hadir Persekolahan', statusDesc: m.sebab });
+          }
+        });
+        (info.lewat || []).forEach(m => {
+          if (m.nama.toLowerCase().includes(carian)) {
+            hasilDitemui.push({ ...m, jenis: 'Hadir Lewat', statusDesc: `Tiba ${m.masa}` });
+          }
+        });
+      });
+
+      // Cari dalam aktiviti
+      (masterDataPenjaga.aktivitiTerkini || []).forEach(act => {
+        (act.senaraiTidakHadir || []).forEach(m => {
+          if (m.nama.toLowerCase().includes(carian)) {
+            hasilDitemui.push({ ...m, jenis: `Tidak Hadir: ${act.nama}`, statusDesc: `${act.tarikh}` });
+          }
+        });
+      });
+
+      if (hasilDitemui.length === 0) {
+        kotak.innerHTML = '<p class="text-slate-500">Nama murid tiada dalam senarai tidak hadir atau lewat hari ini (Anak anda berkemungkinan telah hadir tepat waktu).</p>';
+      } else {
+        kotak.innerHTML = `
+          <p class="font-bold text-indigo-900 border-b pb-1">Hasil Rekod Ditemui (${hasilDitemui.length}):</p>
+          <div class="space-y-1.5 max-h-40 overflow-y-auto">
+            ${hasilDitemui.map(h => `
+              <div class="p-2 bg-white rounded-lg border border-indigo-100 flex justify-between items-center">
+                <div>
+                  <p class="font-bold text-slate-800">${h.nama} <span class="text-indigo-600 font-semibold">(${h.tingkatan})</span></p>
+                  <p class="text-[10px] text-slate-500">${h.jenis}</p>
+                </div>
+                <span class="px-2 py-0.5 rounded text-[10px] font-bold bg-amber-100 text-amber-900">${h.statusDesc}</span>
+              </div>
+            `).join('')}
+          </div>`;
+      }
+    }
+  </script>
+</body>
+</html>
