@@ -5,10 +5,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Portal Kehadiran Penjaga - SMK Kamarul Ariffin</title>
   
-  <!-- Favicon Logo Rasmi Sekolah -->
-  <link rel="icon" type="image/png" href="logo.png">
-  <link rel="shortcut icon" type="image/png" href="logo.png">
-  <link rel="apple-touch-icon" href="logo.png">
+  <!-- Favicon Logo Rasmi Sekolah (Laluan Teguh GitHub Pages) -->
+  <link rel="icon" type="image/png" href="./logo.png">
+  <link rel="shortcut icon" type="image/png" href="./logo.png">
+  <link rel="apple-touch-icon" href="./logo.png">
   
   <!-- Tailwind CSS CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
@@ -19,8 +19,15 @@
   <header class="bg-indigo-900 text-white shadow-lg sticky top-0 z-40 border-b border-indigo-700">
     <div class="max-w-4xl mx-auto px-4 py-3 flex items-center justify-between">
       <div class="flex items-center gap-3">
-        <!-- Logo Sekolah -->
-        <img src="logo.png" alt="Logo SMK Kamarul Ariffin" class="w-11 h-11 object-contain rounded-xl bg-white p-1 shadow-md border border-white/20">
+        <!-- Logo Sekolah dengan Fallback Automatik -->
+        <div class="w-11 h-11 rounded-xl bg-white p-1 shadow-md border border-white/20 flex items-center justify-center overflow-hidden shrink-0">
+          <img 
+            src="./logo.png" 
+            alt="Logo SMK Kamarul Ariffin" 
+            class="w-full h-full object-contain"
+            onerror="pulihkanLogo(this)"
+          >
+        </div>
         <div>
           <h1 class="text-base md:text-lg font-black tracking-wide leading-tight">SMK KAMARUL ARIFFIN</h1>
           <p class="text-xs text-indigo-200 font-medium">Portal Maklumat Kehadiran Murid (penjaga.semekar.com)</p>
@@ -36,7 +43,7 @@
   <!-- ==================== KANDUNGAN UTAMA ==================== -->
   <main class="max-w-4xl mx-auto p-4 flex-grow w-full space-y-6">
 
-    <!-- Kad Status Tarikh Semasa (Format Malaysia) -->
+    <!-- Kad Status Tarikh Semasa -->
     <div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm flex flex-wrap items-center justify-between gap-3">
       <div class="flex items-center gap-3">
         <div class="w-12 h-12 rounded-xl bg-indigo-50 border border-indigo-100 flex items-center justify-center text-2xl shadow-xs">
@@ -179,21 +186,39 @@
   <!-- ==================== FOOTER ==================== -->
   <footer class="bg-white border-t border-slate-200 py-6 text-center text-xs text-slate-500 mt-6">
     <div class="max-w-4xl mx-auto px-4 flex flex-col items-center justify-center gap-2">
-      <img src="logo.png" alt="Logo SMK Kamarul Ariffin" class="w-8 h-8 object-contain">
+      <img 
+        src="./logo.png" 
+        alt="Logo SMK Kamarul Ariffin" 
+        class="w-9 h-9 object-contain"
+        onerror="pulihkanLogo(this)"
+      >
       <p class="font-bold text-slate-700">SMK KAMARUL ARIFFIN</p>
       <p class="text-[11px] text-slate-400">&copy; 2026 Hak Cipta Terpelihara • Sistem Pengecaman Wajah Biometrik Sekolah</p>
     </div>
   </footer>
 
-  <!-- ==================== LOGIK SISTEM FORMAT MALAYSIA ==================== -->
+  <!-- ==================== LOGIK SISTEM ==================== -->
   <script>
     // URL Web App Google Apps Script anda
     const GAS_API_URL = "https://script.google.com/macros/s/AKfycbwqTICcwNWMZ1SzWSdcfRokL6VTJA74D9Vl3wNPDQv-n87TlAmzgZ7DqeDhXgYoX5YA/exec";
 
     let masterDataPenjaga = null;
 
+    // FUNGSI PEMULIHAN LOGO JIKA LALUAN PERTAMA GAGAL (SENSITIVITI HURUF GITHUB)
+    function pulihkanLogo(imgEl) {
+      if (!imgEl.dataset.cuba) {
+        imgEl.dataset.cuba = "1";
+        imgEl.src = "Logo.png"; // Cuba huruf L besar
+      } else if (imgEl.dataset.cuba === "1") {
+        imgEl.dataset.cuba = "2";
+        imgEl.src = "logo.PNG"; // Cuba sambungan PNG huruf besar
+      } else if (imgEl.dataset.cuba === "2") {
+        imgEl.dataset.cuba = "3";
+        imgEl.src = "LOGO.PNG"; // Cuba semua huruf besar
+      }
+    }
+
     // ==================== FUNGSI FORMAT MASA TEMPATAN MALAYSIA ====================
-    // Menukar "07:25:00" -> "7:25 pagi", "14:30" -> "2:30 petang"
     function formatMasaMY(masaStr) {
       if (!masaStr) return "-";
       const s = String(masaStr).trim();
@@ -211,7 +236,6 @@
 
       if (isNaN(jam) || isNaN(minit)) return s;
 
-      // Penentuan waktu dalam Bahasa Melayu standard
       let waktu = "pagi";
       if (jam === 0) {
         waktu = "tengah malam";
@@ -267,11 +291,9 @@
         const res = await fetch(`${GAS_API_URL}?action=getPenjagaData`);
         masterDataPenjaga = await res.json();
 
-        // Paparkan tarikh dalam format tempatan
         const tarikhFormat = masterDataPenjaga.tarikhPenuh || formatTarikhMY(masterDataPenjaga.tarikh);
         document.getElementById('labelTarikhPenuh').innerText = tarikhFormat;
 
-        // Isi pilihan kelas
         const selKelas = document.getElementById('selectPilihanKelas');
         const prevVal = selKelas.value;
         selKelas.innerHTML = '<option value="">-- Pilih Tingkatan / Kelas --</option>';
@@ -285,7 +307,6 @@
           kemaskiniPaparanKelas();
         }
 
-        // Paparkan aktiviti terkini
         paparkanSenaraiAktiviti(masterDataPenjaga.aktivitiTerkini || []);
 
       } catch (err) {
@@ -339,7 +360,7 @@
         });
       }
 
-      // 2. Jadual Hadir Lewat (Dengan format waktu Malaysia)
+      // 2. Jadual Hadir Lewat (Format Waktu Tempatan Malaysia)
       const tbodyLewat = document.getElementById('tbodyLewatKelas');
       tbodyLewat.innerHTML = '';
       if (senaraiLewat.length === 0) {
@@ -377,7 +398,6 @@
       }
     }
 
-    // Paparkan Senarai Aktiviti dengan Waktu Tempatan
     function paparkanSenaraiAktiviti(senarai) {
       const kotak = document.getElementById('senaraiAktivitiKotak');
       kotak.innerHTML = '';
@@ -425,7 +445,6 @@
       });
     }
 
-    // Carian Pantas Nama Anak
     function lakukanCarianPantas() {
       const carian = (document.getElementById('inputCarianNamaAnak').value || '').trim().toLowerCase();
       const kotak = document.getElementById('kotakHasilCarian');
@@ -441,7 +460,6 @@
 
       let hasilDitemui = [];
 
-      // Cari dalam sesi persekolahan
       Object.keys(masterDataPenjaga.dataKelas).forEach(kelas => {
         const info = masterDataPenjaga.dataKelas[kelas];
         (info.tidakHadir || []).forEach(m => {
@@ -457,7 +475,6 @@
         });
       });
 
-      // Cari dalam aktiviti petang
       (masterDataPenjaga.aktivitiTerkini || []).forEach(act => {
         (act.senaraiTidakHadir || []).forEach(m => {
           if (m.nama.toLowerCase().includes(carian)) {
